@@ -50,18 +50,20 @@ class ProgressPrinter
      */
     public function printProgress()
     {
-        if (!$this->isEnabled() && $this->countsPerNotch) {
+        if (!$this->isEnabled() || !$this->countsPerNotch) {
             return;
+        }
+        echo "totalcount\t" . $this->getTotalCount()."\n";
+        echo "currentCount\t". $this->currentCount."\n";
+
+        if ($this->currentCount > $this->getTotalCount()) {
+            throw new \OutOfBoundsException("Current count has gone higher than total count");
         }
         if (($this->currentCount++ % $this->countsPerNotch == 0)) {
             echo "%";
         }
         if ($this->currentCount == $this->getTotalCount()) {
             echo "\n";
-        }
-
-        if ($this->currentCount > $this->getTotalCount()) {
-            throw new \OutOfBoundsException("Current count has gone higher than total count");
         }
     }
 
@@ -103,7 +105,7 @@ class ProgressPrinter
     public function isEnabled($boolean = null)
     {
         if (!is_null($boolean)) {
-            $this->enabled = ($boolean);
+            $this->enabled = (bool)$boolean;
         }
         return $this->enabled;
     }

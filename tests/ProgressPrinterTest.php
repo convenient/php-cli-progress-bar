@@ -5,18 +5,35 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      * @test
      * @author Luke Rodgers <lukerodgers90@gmail.com>
      */
+    public function dontPrintDisabled()
+    {
+        $this->expectOutputString("");
+
+        $printer = new \Convenient\ProgressPrinter();
+        $printer->isEnabled(false);
+        $printer->initProgressBar(100);
+
+        for ($i=0; $i<100; $i++) {
+            $printer->printProgress();
+        }
+    }
+
+    /**
+     * @test
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
     public function printOutOfBounds()
     {
         $this->setExpectedException('OutOfBoundsException', 'Current count has gone higher than total count');
 
         $printer = new \Convenient\ProgressPrinter();
-        $printer->initProgressBar(100);
+        $printer->initProgressBar(1);
 
-        for ($i=0; $i<101; $i++) {
-            $printer->printProgress();
-        }
+        $printer->printProgress();
+        $printer->printProgress();
+
     }
-
+    
     /**
      * @test
      * @author Luke Rodgers <lukerodgers90@gmail.com>
