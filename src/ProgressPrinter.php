@@ -54,7 +54,7 @@ class ProgressPrinter
             return;
         }
 
-        if ($this->currentCount > $this->getTotalCount()) {
+        if ($this->currentCount >= $this->getTotalCount()) {
             throw new \OutOfBoundsException("Current count has gone higher than total count");
         }
         if (($this->currentCount++ % $this->countsPerNotch == 0)) {

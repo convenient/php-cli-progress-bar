@@ -24,14 +24,15 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function printOutOfBounds()
     {
+        $this->expectOutputString("=\n%\n");
+
         $this->setExpectedException('OutOfBoundsException', 'Current count has gone higher than total count');
 
-        $printer = new \Convenient\ProgressPrinter();
+        $printer = new \Convenient\ProgressPrinter(100);
         $printer->initProgressBar(1);
 
         $printer->printProgress();
         $printer->printProgress();
-
     }
 
     /**
