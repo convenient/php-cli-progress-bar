@@ -1,0 +1,13 @@
+<phpunit bootstrap="vendor/autoload.php" syntaxCheck="true">
+    <testsuites>
+        <testsuite name="Convenient PHP CLI Progress Bar Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+</phpunit>

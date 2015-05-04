@@ -57,10 +57,10 @@ class ProgressPrinter
         }
 
         $numberOfNotches = ceil(100 / $this->percentPerNotch);
-        $this->countsPerNotch   = ceil($this->totalCount / $numberOfNotches);
+        $this->countsPerNotch  = ceil($this->totalCount / $numberOfNotches);
 
         for ($i = 0; $i < $numberOfNotches; $i++) {
-            echo "_";
+            echo "=";
         }
         echo "\n";
     }
