@@ -21,20 +21,6 @@ class ProgressPrinter
     }
 
     /**
-     * @param null $boolean
-     * @return bool|null
-     *
-     * @author Luke Rodgers <lukerodgers90@gmail.com>
-     */
-    public function isEnabled($boolean = null)
-    {
-        if (!is_null($boolean)) {
-            $this->enabled = ($boolean);
-        }
-        return $this->enabled;
-    }
-
-    /**
      * Either pass in a total count value, or a traversable object which will be iterated through, counted, then reset.
      *
      * @param $totalCount
@@ -47,17 +33,10 @@ class ProgressPrinter
             return;
         }
 
-        if ($totalCount instanceof \Traversable) {
-            foreach ($totalCount as $obj) {
-                $this->totalCount ++;
-            }
-            reset($totalCount);
-        } else {
-            $this->totalCount = intval($totalCount);
-        }
+        $this->setTotalCount($totalCount);
 
         $numberOfNotches = ceil(100 / $this->percentPerNotch);
-        $this->countsPerNotch  = ceil($this->totalCount / $numberOfNotches);
+        $this->countsPerNotch  = ceil($this->getTotalCount() / $numberOfNotches);
 
         for ($i = 0; $i < $numberOfNotches; $i++) {
             echo "=";
@@ -77,8 +56,51 @@ class ProgressPrinter
         if (($this->currentCount++ % $this->countsPerNotch == 0)) {
             echo "%";
         }
-        if ($this->currentCount == $this->totalCount) {
+        if ($this->currentCount == $this->getTotalCount()) {
             echo "\n";
         }
+    }
+
+    /**
+     * @param $totalCount
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    private function setTotalCount($totalCount)
+    {
+        if (is_array($totalCount) || $totalCount instanceof \Traversable) {
+            foreach ($totalCount as $obj) {
+                $this->totalCount ++;
+            }
+            reset($totalCount);
+        } elseif (is_numeric($totalCount)) {
+            $this->totalCount = intval($totalCount);
+        } else {
+            throw new \InvalidArgumentException("Invalid total count provided\n");
+        }
+    }
+
+    /**
+     * @return int
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    public function getTotalCount()
+    {
+        return $this->totalCount;
+    }
+
+    /**
+     * @param null $boolean
+     * @return bool|null
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    public function isEnabled($boolean = null)
+    {
+        if (!is_null($boolean)) {
+            $this->enabled = ($boolean);
+        }
+        return $this->enabled;
     }
 }
