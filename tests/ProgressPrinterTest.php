@@ -33,7 +33,7 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
         $printer->printProgress();
 
     }
-    
+
     /**
      * @test
      * @author Luke Rodgers <lukerodgers90@gmail.com>
