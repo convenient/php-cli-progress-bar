@@ -16,7 +16,7 @@ class ProgressPrinter
     public function __construct($percentPerNotch = 4, $enabled = true)
     {
         $this->percentPerNotch = $percentPerNotch;
-        $this->enabled = $enabled;
+        $this->isEnabled($enabled);
         $this->currentCount = 0;
     }
 
@@ -29,7 +29,7 @@ class ProgressPrinter
      */
     public function initProgressBar($totalCount)
     {
-        if (!$this->enabled) {
+        if (!$this->isEnabled()) {
             return;
         }
 
@@ -50,7 +50,7 @@ class ProgressPrinter
      */
     public function printProgress()
     {
-        if (!$this->enabled && $this->countsPerNotch) {
+        if (!$this->isEnabled() && $this->countsPerNotch) {
             return;
         }
         if (($this->currentCount++ % $this->countsPerNotch == 0)) {
@@ -58,6 +58,10 @@ class ProgressPrinter
         }
         if ($this->currentCount == $this->getTotalCount()) {
             echo "\n";
+        }
+
+        if ($this->currentCount > $this->getTotalCount()) {
+            throw new \OutOfBoundsException("Current count has gone higher than total count");
         }
     }
 

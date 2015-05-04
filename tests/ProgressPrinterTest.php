@@ -5,6 +5,64 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      * @test
      * @author Luke Rodgers <lukerodgers90@gmail.com>
      */
+    public function printOutOfBounds()
+    {
+        $this->setExpectedException('OutOfBoundsException', 'Current count has gone higher than total count');
+
+        $printer = new \Convenient\ProgressPrinter();
+        $printer->initProgressBar(100);
+
+        for ($i=0; $i<101; $i++) {
+            $printer->printProgress();
+        }
+    }
+
+    /**
+     * @test
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    public function printOneNotchPer100()
+    {
+        $printer = new \Convenient\ProgressPrinter(1);
+
+        $printer->initProgressBar(100);
+
+        for ($i=0; $i<100; $i++) {
+            $printer->printProgress();
+        }
+
+        $expectedOutput =
+            "====================================================================================================\n" .
+            "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+        $this->expectOutputString($expectedOutput);
+    }
+
+    /**
+     * @test
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    public function print10Notch()
+    {
+        $printer = new \Convenient\ProgressPrinter(10);
+
+        $totalCount = 100;
+
+        $printer->initProgressBar($totalCount);
+
+        for ($i=0; $i<$totalCount; $i++) {
+            $printer->printProgress();
+        }
+
+        $expectedOutput =
+            "==========\n" .
+            "%%%%%%%%%%\n";
+        $this->expectOutputString($expectedOutput);
+    }
+
+    /**
+     * @test
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
     public function initialiseWithArray()
     {
         $printer = new \Convenient\ProgressPrinter(100);
