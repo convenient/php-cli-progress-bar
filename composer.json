@@ -1,0 +1,15 @@
+{
+    "name": "convenient/progress-printer",
+    "description": "Super simple CLI progress/loading bar",
+    "license" :"OSL-3.0",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "~4.4",
+        "mikey179/vfsStream": "~1.5"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
