@@ -5,23 +5,24 @@ class ProgressPrinter
 {
     private $totalCount = 0;
     private $currentCount = 0;
-    private $percentPerNotch = 100;
-    private $countsPerNotch = false;
+    private $countsPerChar = false;
+    private $width = false;
     private $enabled = false;
     private $isInitialised = false;
+    private $outputCount = 0;
 
     /**
      * Either pass in a total count value, or a traversable object which will be iterated through, counted, then reset.
      *
      * @param $totalCount
-     * @param int $percentPerNotch
+     * @param int $widthInCharacters
      * @param bool $enabled
      */
-    public function __construct($totalCount, $percentPerNotch = 4, $enabled = true)
+    public function __construct($totalCount, $widthInCharacters = 10, $enabled = true)
     {
         $this->setTotalCount($totalCount);
         $this->isEnabled($enabled);
-        $this->percentPerNotch = $percentPerNotch;
+        $this->width = $widthInCharacters;
         $this->currentCount = 0;
     }
 
@@ -31,10 +32,9 @@ class ProgressPrinter
      */
     private function initProgressBar()
     {
-        $numberOfNotches = ceil(100 / $this->percentPerNotch);
-        $this->countsPerNotch  = ceil($this->getTotalCount() / $numberOfNotches);
+        $this->countsPerChar =  ceil($this->getTotalCount() / $this->width);
 
-        for ($i = 0; $i < $numberOfNotches; $i++) {
+        for ($i = 0; $i < $this->width; $i++) {
             echo "=";
         }
         echo "\n";
@@ -54,15 +54,37 @@ class ProgressPrinter
         if (!$this->isInitialised()) {
             $this->initProgressBar();
         }
-        if ($this->currentCount >= $this->getTotalCount()) {
-            throw new \OutOfBoundsException("Current count has gone higher than total count");
-        }
-        if (($this->currentCount++ % $this->countsPerNotch == 0)) {
-            echo "%";
+        if (($this->currentCount++ % $this->countsPerChar == 0)) {
+            $this->outputLoadingNotch();
         }
         if ($this->currentCount == $this->getTotalCount()) {
-            echo "\n";
+            $this->outputFinish();
         }
+    }
+
+    /**
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    private function outputFinish()
+    {
+        while ($this->outputCount != $this->width) {
+            $this->outputLoadingNotch();
+        }
+        echo "\n";
+    }
+
+    /**
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    private function outputLoadingNotch()
+    {
+        if ($this->currentCount > $this->getTotalCount()) {
+            throw new \OutOfBoundsException("Current count has gone higher than total count");
+        }
+        $this->outputCount++;
+        echo "%";
     }
 
     /**
