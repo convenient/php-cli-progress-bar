@@ -9,9 +9,8 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
     {
         $this->expectOutputString("");
 
-        $printer = new \Convenient\ProgressPrinter();
+        $printer = new \Convenient\ProgressPrinter(100);
         $printer->isEnabled(false);
-        $printer->initProgressBar(100);
 
         for ($i=0; $i<100; $i++) {
             $printer->printProgress();
@@ -28,8 +27,7 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
 
         $this->setExpectedException('OutOfBoundsException', 'Current count has gone higher than total count');
 
-        $printer = new \Convenient\ProgressPrinter(100);
-        $printer->initProgressBar(1);
+        $printer = new \Convenient\ProgressPrinter(1, 100);
 
         $printer->printProgress();
         $printer->printProgress();
@@ -41,9 +39,7 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function printOneNotchPer100()
     {
-        $printer = new \Convenient\ProgressPrinter(1);
-
-        $printer->initProgressBar(100);
+        $printer = new \Convenient\ProgressPrinter(100, 1);
 
         for ($i=0; $i<100; $i++) {
             $printer->printProgress();
@@ -61,13 +57,9 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function print10Notch()
     {
-        $printer = new \Convenient\ProgressPrinter(10);
+        $printer = new \Convenient\ProgressPrinter(100, 10);
 
-        $totalCount = 100;
-
-        $printer->initProgressBar($totalCount);
-
-        for ($i=0; $i<$totalCount; $i++) {
+        for ($i=0; $i<100; $i++) {
             $printer->printProgress();
         }
 
@@ -83,15 +75,15 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function initialiseWithArray()
     {
-        $printer = new \Convenient\ProgressPrinter(100);
-        $this->expectOutputString("=\n");
+        $this->expectOutputString("=\n%");
 
         $arr = array();
         for ($i = 0; $i<12346; $i++) {
             $arr[] = $i;
         }
 
-        $printer->initProgressBar($arr);
+        $printer = new \Convenient\ProgressPrinter($arr, 100);
+        $printer->printProgress();
 
         $this->assertEquals(12346, $printer->getTotalCount());
     }
@@ -102,8 +94,7 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function initialiseWithTraversable()
     {
-        $printer = new \Convenient\ProgressPrinter(100);
-        $this->expectOutputString("=\n");
+        $this->expectOutputString("=\n%");
 
         $arr = array();
         for ($i = 0; $i<67890; $i++) {
@@ -112,7 +103,8 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
 
         $iterator = new ArrayIterator($arr);
 
-        $printer->initProgressBar($iterator);
+        $printer = new \Convenient\ProgressPrinter($iterator, 100);
+        $printer->printProgress();
 
         $this->assertEquals(67890, $printer->getTotalCount());
     }
@@ -123,10 +115,10 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
      */
     public function initialiseWithInteger()
     {
-        $printer = new \Convenient\ProgressPrinter(100);
-        $this->expectOutputString("=\n");
+        $printer = new \Convenient\ProgressPrinter(67, 100);
+        $this->expectOutputString("=\n%");
 
-        $printer->initProgressBar(67);
+        $printer->printProgress();
 
         $this->assertEquals(67, $printer->getTotalCount());
     }
@@ -139,7 +131,7 @@ class ProgressPrinterTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('InvalidArgumentException', 'Invalid total count provided');
 
-        $printer = new \Convenient\ProgressPrinter();
-        $printer->initProgressBar(new stdClass());
+        $printer = new \Convenient\ProgressPrinter(new stdClass());
+        $printer->printProgress();
     }
 }

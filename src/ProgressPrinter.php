@@ -8,33 +8,29 @@ class ProgressPrinter
     private $percentPerNotch = 100;
     private $countsPerNotch = false;
     private $enabled = false;
-
-    /**
-     * @param int $percentPerNotch
-     * @param bool $enabled
-     */
-    public function __construct($percentPerNotch = 4, $enabled = true)
-    {
-        $this->percentPerNotch = $percentPerNotch;
-        $this->isEnabled($enabled);
-        $this->currentCount = 0;
-    }
+    private $isInitialised = false;
 
     /**
      * Either pass in a total count value, or a traversable object which will be iterated through, counted, then reset.
      *
      * @param $totalCount
+     * @param int $percentPerNotch
+     * @param bool $enabled
+     */
+    public function __construct($totalCount, $percentPerNotch = 4, $enabled = true)
+    {
+        $this->setTotalCount($totalCount);
+        $this->isEnabled($enabled);
+        $this->percentPerNotch = $percentPerNotch;
+        $this->currentCount = 0;
+    }
+
+    /**
      *
      * @author Luke Rodgers <lukerodgers90@gmail.com>
      */
-    public function initProgressBar($totalCount)
+    private function initProgressBar()
     {
-        if (!$this->isEnabled()) {
-            return;
-        }
-
-        $this->setTotalCount($totalCount);
-
         $numberOfNotches = ceil(100 / $this->percentPerNotch);
         $this->countsPerNotch  = ceil($this->getTotalCount() / $numberOfNotches);
 
@@ -42,6 +38,8 @@ class ProgressPrinter
             echo "=";
         }
         echo "\n";
+
+        $this->isInitialised(true);
     }
 
     /**
@@ -50,10 +48,12 @@ class ProgressPrinter
      */
     public function printProgress()
     {
-        if (!$this->isEnabled() || !$this->countsPerNotch) {
+        if (!$this->isEnabled()) {
             return;
         }
-
+        if (!$this->isInitialised()) {
+            $this->initProgressBar();
+        }
         if ($this->currentCount >= $this->getTotalCount()) {
             throw new \OutOfBoundsException("Current count has gone higher than total count");
         }
@@ -106,5 +106,19 @@ class ProgressPrinter
             $this->enabled = (bool)$boolean;
         }
         return $this->enabled;
+    }
+
+    /**
+     * @param null $boolean
+     * @return bool
+     *
+     * @author Luke Rodgers <lukerodgers90@gmail.com>
+     */
+    private function isInitialised($boolean = null)
+    {
+        if (!is_null($boolean)) {
+            $this->isInitialised = (bool)$boolean;
+        }
+        return $this->isInitialised;
     }
 }
