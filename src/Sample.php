@@ -1,5 +1,5 @@
 <?php
-require_once 'vendor/autoload.php';
+require_once dirname(dirname(__FILE__)) . '/vendor/autoload.php';
 
 $arr = new SplFixedArray(rand(1, 1000));
 
