@@ -89,6 +89,7 @@ class ProgressPrinter
 
     /**
      * @param $totalCount
+     * @throws \InvalidArgumentException
      *
      * @author Luke Rodgers <lukerodgers90@gmail.com>
      */
