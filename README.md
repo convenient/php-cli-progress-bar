@@ -17,22 +17,35 @@ $progressBar = new \Convenient\ProgressPrinter(500);
 
 for ($i=0; $i<500; $i++) {
     $progressBar->printProgress();
-    usleep(rand(0, 250));
 }
 ```
 
-### Passing in the Traversable with a 50 character wide progress bar
+### Passing in the Traversable
 
 ```
 <?php
 require_once '/vendor/autoload.php';
 
-$arr = new SplFixedArray(rand(1, 1000));
+$arr = new SplFixedArray(500));
 
-$progressBar = new \Convenient\ProgressPrinter($arr, 50);
+$progressBar = new \Convenient\ProgressPrinter($arr);
 
 foreach ($arr as $val) {
     $progressBar->printProgress();
-    usleep(rand(0, 250));
+}
+```
+
+### Change the size of the progress bar
+
+```
+<?php
+require_once '/vendor/autoload.php';
+
+$arr = new SplFixedArray(500));
+
+$progressBar = new \Convenient\ProgressPrinter(500, 100);
+
+for ($i=0; $i<500; $i++) {
+    $progressBar->printProgress();
 }
 ```
