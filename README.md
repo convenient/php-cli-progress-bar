@@ -42,8 +42,6 @@ foreach ($arr as $val) {
 <?php
 require_once '/vendor/autoload.php';
 
-$arr = new SplFixedArray(500));
-
 $progressBar = new \Convenient\ProgressPrinter(500, 100);
 
 for ($i=0; $i<500; $i++) {
