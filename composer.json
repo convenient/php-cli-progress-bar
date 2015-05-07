@@ -1,5 +1,5 @@
 {
-    "name": "convenient/progress-printer",
+    "name": "convenient/tiny-progress-bar",
     "description": "Super simple CLI progress/loading bar",
     "license" :"OSL-3.0",
     "type": "library",
