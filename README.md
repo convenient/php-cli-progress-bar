@@ -27,7 +27,7 @@ for ($i=0; $i<500; $i++) {
 <?php
 require_once '/vendor/autoload.php';
 
-$arr = new SplFixedArray(500));
+$arr = new SplFixedArray(500);
 
 $progressBar = new \Convenient\ProgressPrinter($arr);
 

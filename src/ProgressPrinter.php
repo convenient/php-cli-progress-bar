@@ -54,7 +54,7 @@ class ProgressPrinter
         if (!$this->isInitialised()) {
             $this->initProgressBar();
         }
-        if (($this->currentCount++ % $this->countsPerChar == 0)) {
+        if ((++$this->currentCount % $this->countsPerChar == 0)) {
             $this->outputLoadingNotch();
         }
         if ($this->currentCount == $this->getTotalCount()) {
