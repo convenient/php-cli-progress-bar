@@ -8,6 +8,8 @@ Takes two parameters
 
 ## Example
 
+![bash example](sample.gif "Bash Example")
+
 ### Passing the size of the Traversable
 
 ```
