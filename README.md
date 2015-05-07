@@ -1,4 +1,4 @@
-# php-cli-progress-bar
+# php-cli-tiny-progress-bar
 An itty bitty, super simple, 2 line progress bar for PHP command line applications.
 
 Takes two parameters
