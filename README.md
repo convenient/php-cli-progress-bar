@@ -6,6 +6,8 @@ Takes two parameters
 1. The size of your `Traversable` or - if you're lazy - the `Traversable` itself.
 2. How many characters across you want your progress bar to be.
 
+It's hosted on packagist, so just add `convenient/tiny-progress-bar: "~0.1"` to your `composer.json` :)
+
 ## Example
 
 ![bash example](sample.gif "Bash Example")
