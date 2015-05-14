@@ -1,4 +1,9 @@
 # php-cli-tiny-progress-bar
+
+[![Build Status](https://travis-ci.org/convenient/php-cli-tiny-progress-bar.svg?branch=master)](https://travis-ci.org/convenient/php-cli-tiny-progress-bar) 
+[![Coverage Status](https://coveralls.io/repos/convenient/php-cli-tiny-progress-bar/badge.svg?branch=master)](https://coveralls.io/r/convenient/php-cli-tiny-progress-bar?branch=master)
+
+
 An itty bitty, super simple, 2 line progress bar for PHP command line applications.
 
 Takes two parameters
